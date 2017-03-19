@@ -2,7 +2,7 @@ from __future__ import print_function
 import os
 import subprocess
 
-from colour import colour_text, colours
+from colour import colour_text, styles
 
 _description_header = '### DESCRIPTION: '
 _gandalf_dir = os.path.join(os.path.expanduser('~'), '.gandalf')
@@ -33,7 +33,7 @@ def edit(name):
 	if not os.path.exists(script_file):
 		raise Exception('Script \'{}\' doesn\'t exist'.format(name))
 	subprocess.check_call(['nano', script_file])
-	print(colour_text('Script \'{}\' updated successfully.'.format(name), colours.green))
+	print(colour_text('Script \'{}\' updated successfully.'.format(name), styles.green))
 
 
 @remove_command
@@ -41,9 +41,9 @@ def run(name):
 	script_file = os.path.join(_gandalf_dir, name)
 	if not os.path.exists(script_file):
 		raise Exception('Script \'{}\' doesn\'t exist.'.format(name))
-	print(colour_text('* Running script \'{}\' *\n'.format(name), colours.bold))
+	print(colour_text('* Running script \'{}\' *\n'.format(name), styles.bold))
 	result = subprocess.check_call(['/bin/bash', script_file])
-	print(colour_text('\n* Execution finished *\n', colours.bold))
+	print(colour_text('\n* Execution finished *\n', styles.bold))
 
 
 def get_file_description(filename):
@@ -61,11 +61,11 @@ def _list(name):
 	max_length = reduce((lambda a, i: max(len(i), a)), scripts, 0)
 	for script in scripts:
 		desc = get_file_description(os.path.join(_gandalf_dir, script))
-		lines.append('* {}{}{}'.format(
-			script,
-			' ' * (max_length - len(script) + 4),
-			desc if desc else ''
-		))
+		lines.append('* {script}{spaces}{desc}'.format(**{
+			'script': colour_text(script, styles.blue),
+			'spaces': ' ' * (max_length - len(script) + 4),
+			'desc': desc if desc else ''
+		}))
 	for line in lines:
 		print(line)
 
@@ -77,7 +77,7 @@ def remove(name):
 		os.remove(script_file)
 	except OSError as e:
 		if os.path.exists(script_file):
-			print('Could not remove script \'{}\': {}'.format(script_file, e))
+			raise e
 
 
 handlers = {
