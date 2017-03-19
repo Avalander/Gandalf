@@ -13,9 +13,12 @@ def main():
 	parser.add_argument('-e', '--editor', dest='editor')
 	args = parser.parse_args()
 	try:
-		commands.handlers[args.command](args.name)
-	except KeyError:
-		commands.run(args.command)
+		try:
+			commands.handlers[args.command](args.name)
+		except KeyError:
+			commands.run(args.command)
+	except Exception as e:
+		print('\033[91m{}\033[0m'.format(e))
 
 
 if __name__ == '__main__':

@@ -5,18 +5,25 @@ _gandalf_dir = os.path.join(os.path.expanduser('~'), '.gandalf')
 
 
 def create(name):
-	gandalf_dir = _gandalf_dir
-	script_file = os.path.join(gandalf_dir, name)
-	if not os.path.exists(gandalf_dir):
-		os.mkdir(gandalf_dir)
+	script_file = os.path.join(_gandalf_dir, name)
+	if not os.path.exists(_gandalf_dir):
+		os.mkdir(_gandalf_dir)
 	if os.path.exists(script_file):
 		raise Exception('Script \'' + name + '\' already exists.')
 	open(script_file, 'a').close()
 	return_code = subprocess.call(['nano', script_file])
 
 
+def edit(name):
+	script_file = os.path.join(_gandalf_dir, name)
+	if not os.path.exists(script_file):
+		raise Exception('Script \'{}\' doesn\'t exist'.format(name))
+	subprocess.check_call(['nano', script_file])
+	print('\033[92mScript \'{}\' updated successfully.\033[0m'.format(name))
+
+
 def run(name):
-	script_file = os.path.join(os.path.expanduser('~'), '.gandalf', name)
+	script_file = os.path.join(_gandalf_dir, name)
 	if not os.path.exists(script_file):
 		raise Exception('Script \'' + name + '\' doesn\'t exist.')
 	print('* Running script \'{}\' *\n'.format(name))
@@ -39,6 +46,7 @@ def remove(name):
 
 handlers = {
 	'create': create,
+	'edit': edit,
 	'list': _list,
 	'run': run,
 	'remove': remove
