@@ -3,7 +3,7 @@ import argparse
 import os
 import subprocess
 
-commands = [
+_command_choices = [
 	'create',
 	'run',
 	'remove',
@@ -46,7 +46,7 @@ def remove(name):
 			print('Could not remove script \'{}\''.format(script_file))
 
 
-command_handlers = {
+_command_handlers = {
 	'create': create,
 	'list': _list,
 	'run': run,
@@ -56,10 +56,13 @@ command_handlers = {
 
 def main():
 	parser = argparse.ArgumentParser()
-	parser.add_argument('command', metavar='C', help='Command to execute', choices=commands)
-	parser.add_argument('name', help='Name of the script to create')
+	parser.add_argument('command', metavar='C', help='Command to execute')
+	parser.add_argument('name', nargs='?', help='Name of the script to create')
 	args = parser.parse_args()
-	command_handlers[args.command](args.name)
+	try:
+		_command_handlers[args.command](args.name)
+	except KeyError:
+		run(args.command)
 
 
 if __name__ == '__main__':
