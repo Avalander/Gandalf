@@ -10,7 +10,11 @@ _gandalf_dir = os.path.join(os.path.expanduser('~'), '.gandalf')
 
 def remove_command(f):
 	def wrapper(command, **kwargs):
-		return f(**kwargs) if len(kwargs) > 0 else f(command)
+		if len(kwargs) == 0:
+			return f(command)
+		if kwargs['name'] is None:
+			kwargs['name'] = command
+		return f(**kwargs)
 	return wrapper
 
 
@@ -28,21 +32,21 @@ def create(name, description=None):
 
 
 @remove_command
-def edit(name):
+def edit(name, editor='nano'):
 	script_file = os.path.join(_gandalf_dir, name)
 	if not os.path.exists(script_file):
 		raise Exception('Script \'{}\' doesn\'t exist'.format(name))
-	subprocess.check_call(['nano', script_file])
+	subprocess.check_call([editor, script_file])
 	print(colour_text('Script \'{}\' updated successfully.'.format(name), styles.green))
 
 
 @remove_command
-def run(name):
+def run(name, script_args=[]):
 	script_file = os.path.join(_gandalf_dir, name)
 	if not os.path.exists(script_file):
 		raise Exception('Script \'{}\' doesn\'t exist.'.format(name))
 	print(colour_text('* Running script \'{}\' *\n'.format(name), styles.bold))
-	result = subprocess.check_call(['/bin/bash', script_file])
+	result = subprocess.check_call(['/bin/bash', script_file] + script_args)
 	print(colour_text('\n* Execution finished *\n', styles.bold))
 
 
@@ -61,11 +65,11 @@ def _list(name):
 	max_length = reduce((lambda a, i: max(len(i), a)), scripts, 0)
 	for script in scripts:
 		desc = get_file_description(os.path.join(_gandalf_dir, script))
-		lines.append('* {script}{spaces}{desc}'.format(**{
-			'script': colour_text(script, styles.blue),
-			'spaces': ' ' * (max_length - len(script) + 4),
-			'desc': desc if desc else ''
-		}))
+		lines.append('* {script}{spaces}{desc}'.format(
+			script=colour_text(script, styles.blue),
+			spaces=' ' * (max_length - len(script) + 4),
+			desc=desc if desc else ''
+		))
 	for line in lines:
 		print(line)
 

@@ -10,6 +10,7 @@ def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('command', metavar='C', help='Command to execute')
 	parser.add_argument('name', nargs='?', help='Name of the script to create')
+	parser.add_argument('-a', '--args', dest='script_args', nargs='*', default=argparse.SUPPRESS)
 	parser.add_argument('-e', '--editor', dest='editor', default=argparse.SUPPRESS)
 	parser.add_argument('-d', '--description', dest='description', default=argparse.SUPPRESS)
 	args = parser.parse_args()
@@ -17,7 +18,7 @@ def main():
 		try:
 			commands.handlers[args.command](**vars(args))
 		except KeyError:
-			commands.run(args.command)
+			commands.run(**vars(args))
 	except Exception as e:
 		print('\033[91m{}\033[0m'.format(e))
 
