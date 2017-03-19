@@ -6,6 +6,7 @@ import subprocess
 commands = [
 	'create',
 	'run',
+	'remove',
 	'list'
 ]
 
@@ -30,13 +31,21 @@ def run(name):
 	print('\n* Execution finished *\n')
 
 def _list(name):
-	subprocess.check_call(['ls', '-l', _gandalf_dir])
-	pass
+	print(os.listdir(_gandalf_dir))
+
+def remove(name):
+	script_file = os.path.join(_gandalf_dir, name)
+	try:
+		os.remove(script_file)
+	except OSError:
+		if os.path.exists(script_file):
+			print('Could not remove script \'{}\''.format(script_file))
 
 command_handlers = {
 	'create': create,
 	'list': _list,
-	'run': run
+	'run': run,
+	'remove': remove
 }
 
 def main():
