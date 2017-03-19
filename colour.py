@@ -4,8 +4,8 @@ class colours:
 	end = '\033[0m'
 	blue = '\033[94m'
 	bold = '\033[1m'
-	WARNING = '\033[93m'
-	UNDERLINE = '\033[4m'
+	warning = '\033[93m'
+	underline = '\033[4m'
 
 
 def colour_text(text, colour):
