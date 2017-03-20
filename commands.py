@@ -8,17 +8,6 @@ _description_header = '### DESCRIPTION: '
 _gandalf_dir = os.path.join(os.path.expanduser('~'), '.gandalf')
 
 
-def remove_command(f):
-	def wrapper(command, **kwargs):
-		if len(kwargs) == 0:
-			return f(command)
-		if kwargs['name'] is None:
-			kwargs['name'] = command
-		return f(**kwargs)
-	return wrapper
-
-
-@remove_command
 def create(name, description=None, editor='nano'):
 	script_file = os.path.join(_gandalf_dir, name)
 	if not os.path.exists(_gandalf_dir):
@@ -31,7 +20,6 @@ def create(name, description=None, editor='nano'):
 	return_code = subprocess.call([editor, script_file])
 
 
-@remove_command
 def edit(name, editor='nano'):
 	script_file = os.path.join(_gandalf_dir, name)
 	if not os.path.exists(script_file):
@@ -40,7 +28,6 @@ def edit(name, editor='nano'):
 	print(colour_text('Script \'{}\' updated successfully.'.format(name), styles.green))
 
 
-@remove_command
 def run(name, script_args=[]):
 	script_file = os.path.join(_gandalf_dir, name)
 	if not os.path.exists(script_file):
@@ -58,8 +45,7 @@ def get_file_description(filename):
 	return description
 
 
-@remove_command
-def _list(name):
+def _list():
 	lines = []
 	scripts = os.listdir(_gandalf_dir)
 	max_length = reduce((lambda a, i: max(len(i), a)), scripts, 0)
@@ -74,11 +60,11 @@ def _list(name):
 		print(line)
 
 
-@remove_command
 def remove(name):
 	script_file = os.path.join(_gandalf_dir, name)
 	try:
 		os.remove(script_file)
+		print(colour_text('Script \'{}\' removed successfully.'.format(name), styles.blue))
 	except OSError as e:
 		if os.path.exists(script_file):
 			raise e
