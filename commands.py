@@ -19,7 +19,7 @@ def remove_command(f):
 
 
 @remove_command
-def create(name, description=None):
+def create(name, description=None, editor='nano'):
 	script_file = os.path.join(_gandalf_dir, name)
 	if not os.path.exists(_gandalf_dir):
 		os.mkdir(_gandalf_dir)
@@ -28,7 +28,7 @@ def create(name, description=None):
 	with open(script_file, 'a') as f:
 		if description:
 			print('{}{}'.format(_description_header, description), file=f)
-	return_code = subprocess.call(['nano', script_file])
+	return_code = subprocess.call([editor, script_file])
 
 
 @remove_command
