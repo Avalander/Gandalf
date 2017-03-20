@@ -44,7 +44,7 @@ $ gandalf remove {script-name}
 
 - **script-name:** the name of the script that will be removed.
 
-### Run
+### Run
 Executes a given script.
 ```
 $ gandalf run {script-name} [-a {arguments}]
