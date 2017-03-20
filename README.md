@@ -2,7 +2,7 @@
 
 Gandalf is a script manager for Unix. It aims to provide a console interface to create and use scripts without polluting the `/usr/local/bin` folder.
 
-In it's current state, it arguably doesn't provide any read advantage over simply dropping script files in `/usr/local/bin`, but it's a fun side project.
+In its current state, it arguably doesn't provide any read advantage over simply dropping script files in `/usr/local/bin`, but it's a fun side project.
 
 ## Installation
 
