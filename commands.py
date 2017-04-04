@@ -37,7 +37,7 @@ def run(name, script_args=[]):
 	print(colour_text('\n* Execution finished *\n', styles.bold))
 
 
-def get_file_description(filename):
+def _get_file_description(filename):
 	description = ''
 	with open(filename, 'r') as f:
 		desc_lines = [x.strip().replace(_description_header, '') for x in f.readlines() if x.startswith(_description_header)]
@@ -50,7 +50,7 @@ def _list():
 	scripts = os.listdir(_gandalf_dir)
 	max_length = reduce((lambda a, i: max(len(i), a)), scripts, 0)
 	for script in scripts:
-		desc = get_file_description(os.path.join(_gandalf_dir, script))
+		desc = _get_file_description(os.path.join(_gandalf_dir, script))
 		lines.append('* {script}{spaces}{desc}'.format(
 			script=colour_text(script, styles.blue),
 			spaces=' ' * (max_length - len(script) + 4),

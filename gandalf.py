@@ -7,7 +7,7 @@ import commands
 import colour
 
 
-class DefaultSubcommandArgParse(argparse.ArgumentParser):
+class DefaultSubcommandArgParser(argparse.ArgumentParser):
 	__default_subparser = None
 
 	def set_default_subparser(self, name):
@@ -28,11 +28,11 @@ class DefaultSubcommandArgParse(argparse.ArgumentParser):
 				# insert default in first position, this implies no
 				# global options without a sub_parsers specified
 				arg_strings = [d_sp] + arg_strings
-		return super(DefaultSubcommandArgParse, self)._parse_known_args(arg_strings, *args, **kwargs)
+		return super(DefaultSubcommandArgParser, self)._parse_known_args(arg_strings, *args, **kwargs)
 
 
 def parse_args():
-	parser = DefaultSubcommandArgParse()
+	parser = DefaultSubcommandArgParser()
 	subparsers = parser.add_subparsers(title='Commands', dest='command')
 
 	# Create command
