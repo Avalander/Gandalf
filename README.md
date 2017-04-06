@@ -52,3 +52,9 @@ $ gandalf run {script-name} [-a {arguments}]
 
 - **script-name:** the name of the script that will be executed.
 - **arguments:** an optional list of arguments that will be provided to the script when invoked.
+
+As a shortcut, the **run** command will be invoked when no command is provided.
+```
+$ gandalf {script-name} [-a {arguments}]
+```
+This will execute the script `script-name`.
