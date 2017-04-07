@@ -1,10 +1,8 @@
 #!/usr/bin/python
 import argparse
-import os
-import subprocess
 
 import commands
-import colour
+import console
 
 
 class DefaultSubcommandArgParser(argparse.ArgumentParser):
@@ -69,7 +67,7 @@ def main():
 		command = args.pop('command')
 		commands.handlers[command](**args)
 	except Exception as e:
-		colour.cprint((e, colour.styles.red))
+		console.cprint((e, console.styles.red))
 
 
 if __name__ == '__main__':
