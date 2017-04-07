@@ -16,7 +16,7 @@ def colour_text(text, *args):
 def cprint(*args):
 	result = []
 	for arg in args:
-		if type(arg) is tuple:
+		if isinstance(arg, tuple):
 			result.append(colour_text(arg[0], arg[1:]))
 		else:
 			result.append(arg)
