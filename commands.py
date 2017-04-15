@@ -80,3 +80,7 @@ handlers = {
 	'run': run,
 	'remove': remove
 }
+
+
+def handle(command, **kwargs):
+	handlers[command](**kwargs)

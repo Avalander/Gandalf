@@ -65,7 +65,7 @@ def main():
 	args = vars(parse_args())
 	try:
 		command = args.pop('command')
-		commands.handlers[command](**args)
+		commands.handle(command, **args)
 	except Exception as e:
 		console.cprint((e, console.styles.red))
 
