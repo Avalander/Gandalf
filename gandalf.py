@@ -56,6 +56,12 @@ def parse_args():
 	run_parser.add_argument('name', help='Name of the script to execute')
 	run_parser.add_argument('-a', '--args', dest='script_args', nargs='*', default=argparse.SUPPRESS)
 
+	# Template
+	template_parser = subparsers.add_parser('template')
+	template_parser.add_argument('template_command', choices=['add', 'edit', 'remove'])
+	template_parser.add_argument('path')
+	template_parser.add_argument('-e', '--editor', dest='editor', default=argparse.SUPPRESS)
+
 	parser.set_default_subparser('run')
 
 	return parser.parse_args()

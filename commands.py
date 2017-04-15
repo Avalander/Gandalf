@@ -3,6 +3,7 @@ import os
 import subprocess
 
 from console import colour_text, styles
+import template
 
 _DESCRIPTION_HEADER = '### DESCRIPTION: '
 _GANDALF_DIR = os.path.join(os.path.expanduser('~'), '.gandalf')
@@ -73,12 +74,17 @@ def remove(name):
 			raise e
 
 
+def _template(template_command, **kwargs):
+	return template.handle(template_command, **kwargs)
+
+
 handlers = {
 	'create': create,
 	'edit': edit,
 	'list': _list,
 	'run': run,
-	'remove': remove
+	'remove': remove,
+	'template': _template
 }
 
 
