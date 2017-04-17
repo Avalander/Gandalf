@@ -38,6 +38,7 @@ def parse_args():
 	create_parser.add_argument('name', help='Name of the script to create')
 	create_parser.add_argument('-d', '--description', dest='description', default=argparse.SUPPRESS)
 	create_parser.add_argument('-e', '--editor', dest='editor', default=argparse.SUPPRESS)
+	create_parser.add_argument('-t', '--template', dest='template', nargs='*', default=argparse.SUPPRESS)
 
 	# Edit command
 	edit_parser = subparsers.add_parser('edit', help='Edits an existing script')

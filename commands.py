@@ -6,10 +6,15 @@ from console import colour_text, styles
 import template
 
 _DESCRIPTION_HEADER = '### DESCRIPTION: '
+_TEMPLATE_HEADER = '### TEMPLATE: '
 _GANDALF_DIR = os.path.join(os.path.expanduser('~'), '.gandalf')
+_TEMPLATE_DIR = os.path.join(_GANDALF_DIR, '.templates')
+_LIST_EXCLUDES = [
+	'.templates'
+]
 
 
-def create(name, description=None, editor='nano'):
+def create(name, description=None, editor='nano', template=None):
 	script_file = os.path.join(_GANDALF_DIR, name)
 	if not os.path.exists(_GANDALF_DIR):
 		os.mkdir(_GANDALF_DIR)
@@ -18,6 +23,9 @@ def create(name, description=None, editor='nano'):
 	with open(script_file, 'a') as f:
 		if description:
 			print('{}{}'.format(_DESCRIPTION_HEADER, description), file=f)
+		if template:
+			for t in template:
+				print('{}{}'.format(_TEMPLATE_HEADER, t), file=f)
 	return subprocess.call([editor, script_file])
 
 
@@ -35,8 +43,9 @@ def run(name, script_args=None):
 		raise Exception('Script \'{}\' doesn\'t exist.'.format(name))
 	if script_args is None:
 		script_args = []
+	templates = _get_file_templates(script_file)
 	print(colour_text('* Running script \'{}\' *\n'.format(name), styles.bold))
-	subprocess.check_call(['/bin/bash', script_file] + script_args)
+	subprocess.check_call(['/bin/bash', script_file] + templates + script_args)
 	print(colour_text('\n* Execution finished *\n', styles.bold))
 
 
@@ -49,9 +58,17 @@ def _get_file_description(filename):
 	return description
 
 
+def _get_file_templates(filename):
+	templates = []
+	with open(filename, 'r') as f:
+		templates = [os.path.join(_TEMPLATE_DIR, x.strip().replace(_TEMPLATE_HEADER, ''))
+			for x in f.readlines() if x.startswith(_TEMPLATE_HEADER)]
+	return templates
+
+
 def _list():
 	lines = []
-	scripts = os.listdir(_GANDALF_DIR)
+	scripts = [x for x in os.listdir(_GANDALF_DIR) if x not in _LIST_EXCLUDES]
 	max_length = reduce((lambda a, i: max(len(i), a)), scripts, 0)
 	for script in scripts:
 		desc = _get_file_description(os.path.join(_GANDALF_DIR, script))
