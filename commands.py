@@ -95,7 +95,7 @@ def _template(template_command, **kwargs):
 	return template.handle(template_command, **kwargs)
 
 
-handlers = {
+_HANDLERS = {
 	'create': create,
 	'edit': edit,
 	'list': _list,
@@ -106,4 +106,4 @@ handlers = {
 
 
 def handle(command, **kwargs):
-	handlers[command](**kwargs)
+	_HANDLERS[command](**kwargs)
