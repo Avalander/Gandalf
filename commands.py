@@ -14,7 +14,7 @@ _LIST_EXCLUDES = [
 ]
 
 
-def create(name, description=None, editor='nano', template=None):
+def create(name, description=None, editor='nano', templates=None):
 	script_file = os.path.join(_GANDALF_DIR, name)
 	if not os.path.exists(_GANDALF_DIR):
 		os.mkdir(_GANDALF_DIR)
@@ -23,8 +23,8 @@ def create(name, description=None, editor='nano', template=None):
 	with open(script_file, 'a') as f:
 		if description:
 			print('{}{}'.format(_DESCRIPTION_HEADER, description), file=f)
-		if template:
-			for t in template:
+		if templates:
+			for t in templates:
 				print('{}{}'.format(_TEMPLATE_HEADER, t), file=f)
 	return subprocess.call([editor, script_file])
 
