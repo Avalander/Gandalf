@@ -8,6 +8,9 @@ In its current state, it arguably doesn't provide any read advantage over simply
 - [Usage](#usage)
   - [Create](#create)
   - [Edit](#edit)
+  - [List](#list)
+  - [Remove](#remove)
+  - [Run](#run)
 
 ## Installation
 
