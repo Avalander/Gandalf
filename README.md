@@ -4,6 +4,10 @@ Gandalf is a script manager for Unix. It aims to provide a console interface to 
 
 In its current state, it arguably doesn't provide any read advantage over simply dropping script files in `/usr/local/bin`, but it's a fun side project.
 
+- [Installation](#installation)
+- [Usage](#usage)
+- - [Create](#create)
+
 ## Installation
 
 There is currently no way to install Gandalf from any package manager or similar system. If you want to give it a try, however, you can always clone this reposiotry and create a symbolic link to `gandalf.py` in `/usr/local/bin` or any other folder included in your `PATH`.
