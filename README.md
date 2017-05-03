@@ -6,7 +6,8 @@ In its current state, it arguably doesn't provide any read advantage over simply
 
 - [Installation](#installation)
 - [Usage](#usage)
-- - [Create](#create)
+  - [Create](#create)
+  - [Edit](#edit)
 
 ## Installation
 
